@@ -8,6 +8,7 @@
   <script src="javascript_compressed.js"></script>
   <script src="python_compressed.js"></script>
   <script src="zh-hans.js"></script>
+  <script src="base64.min.js"></script>
 
   <!--pi core-->
   <script src="blocks.js"></script>
@@ -132,8 +133,9 @@
     function wwjtest(code) {
       ip = '192.168.0.127'
       blockly_server = 'http://192.168.0.127:5000/run'
-      params = `key=test&code=${code}`
-      //console.log(`code=${code}`);
+      code_base64 = Base64.encode(code); //base64
+      params = `key=test&code=${code_base64}`
+      console.log(params);
       //params = "lorem=ipsum&name=binny";
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST",blockly_server,true);
@@ -142,8 +144,6 @@
       // var name = "wwj";
       //console.log(`hi, ${name}!`);
       xmlhttp.send(params);
-      //xmlhttp.send();
-
     }
 
 
@@ -159,7 +159,9 @@
       // 发送到硬件里
       Blockly.Python.INFINITE_LOOP_TRAP = null;
       var code = Blockly.Python.workspaceToCode(workspace);
+      console.log(code);
       wwjtest(code);
+      //1+5加号会没掉
       //alert(code);
     }
   </script>

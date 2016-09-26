@@ -1,5 +1,6 @@
 //todo 使用工厂工具: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
-//todo 添加工具组:https://developers.google.com/blockly/guides/configure/web/toolbox
+//todo : 打造案例
+// 如果算对就笑脸
 //
 // ─── ALPHABET ───────────────────────────────────────────────────────────────────
 //
@@ -8,15 +9,15 @@
     Blockly.Blocks['alphabet'] = {
         init: function() {
             this.appendDummyInput()
-                .appendField("Alphabet")
-                .appendField("笑一个") //实际是数字0-9
-                .appendField(new Blockly.FieldCheckbox("FALSE"), "numbers")
-                .appendField("清理屏幕") //小写字母
-                .appendField(new Blockly.FieldCheckbox("FALSE"), "lowercase")
-                .appendField("播放声音") //大写字母
-                .appendField(new Blockly.FieldCheckbox("FALSE"), "uppercase")
-                .appendField("Other")
-                .appendField(new Blockly.FieldTextInput(""), "other");
+                .appendField("Led")
+                .appendField("开心") //实际是数字0-9
+                .appendField(new Blockly.FieldCheckbox("FALSE"), "happy")
+                .appendField("悲伤") //小写字母
+                .appendField(new Blockly.FieldCheckbox("FALSE"), "sad")
+                .appendField("清理屏幕") //大写字母
+                .appendField(new Blockly.FieldCheckbox("FALSE"), "clear")
+                .appendField("pi_ip")
+                .appendField(new Blockly.FieldTextInput("192.168.0.127"), "pi_ip");
             this.setInputsInline(true);
             this.setPreviousStatement(true, "String");
             this.setNextStatement(true, "String");
@@ -26,22 +27,20 @@
         }
     };
     Blockly.Python['alphabet'] = function(block) {
-        var checkbox_numbers = block.getFieldValue('numbers') == 'TRUE';
-        var checkbox_lowercase = block.getFieldValue('lowercase') == 'TRUE';
-        var checkbox_uppercase = block.getFieldValue('uppercase') == 'TRUE';
-        var text_other = block.getFieldValue('other');
+        var checkbox_numbers = block.getFieldValue('happy') == 'TRUE';
+        var checkbox_lowercase = block.getFieldValue('sad') == 'TRUE';
+        var checkbox_uppercase = block.getFieldValue('clear') == 'TRUE';
+        var pi_ip = block.getFieldValue('pi_ip');
 
         var code = '';
         //变为单行python代码
         //todo：整合既有代码
-        if ( checkbox_numbers ) { code += 'import smile;smile.draw_smile()\n' }; //亮灯 //这里加入python代码
-        if ( checkbox_lowercase ) { code += 'import smile;smile.clear()\n' }; //播放声音
-        if ( checkbox_uppercase ) { code += 'A-Z' };
+        if ( checkbox_numbers ) { code += 'import smile;smile.draw_smile()\n' }; //笑脸 ,库预加载就不需要重复
+        if ( checkbox_lowercase ) { code += 'import smile;smile.draw_sad()\n' };
+        if ( checkbox_uppercase ) { code += 'import smile;smile.clear()\n' };
 
         //跑一个函数，发送代码
-        wwjtest(code); //ok
         return code;
-        //return '[' + 'wwj' + ']';
     };
 
 //
