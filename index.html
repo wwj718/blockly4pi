@@ -134,23 +134,34 @@
 
     function wwjtest(code) {
       //json
-      ip = '192.168.0.127'
+      ip = '192.168.0.127' //需要一个总的开始，填入ip
       blockly_server = 'http://192.168.0.127:5000/run'
       //  code_base64=code
       //code_base64 = window.btoa(unescape(encodeURIComponent( code )))
       code_base64 = code
       //code_base64 = Base64.encode(code); //base64
-      //params = `key=test&code=${code_base64}`
       xmlhttp=new XMLHttpRequest();
-      xmlhttp.open("POST",blockly_server,true);
+      xmlhttp.timeout = 2000; //异步才有
+      xmlhttp.ontimeout = function (e) {
+        alert('请求超时')
+      };
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           console.log(JSON.parse(xmlhttp.response));
+            //alert(xmlhttp.responseText);
+            alert('运行成功');
+          };
+        };
+
+      xmlhttp.open("POST",blockly_server,true);//异步,同步是false
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(JSON.stringify({key:"test",code:code_base64}));
-      //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      //弹出执行成功 
+      
       //es6
       // var name = "wwj";
       //console.log(`hi, ${name}!`);
-      //xmlhttp.send(params);
-    }
+    }//end wwjtest
 
 
     function showCode() {
@@ -165,7 +176,7 @@
       // 发送到硬件里
       Blockly.Python.INFINITE_LOOP_TRAP = null;
       var code = Blockly.Python.workspaceToCode(workspace);
-      console.log(code);
+      //console.log(code);
       wwjtest(code);
       //1+5加号会没掉
       //alert(code);
