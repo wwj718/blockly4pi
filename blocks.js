@@ -44,3 +44,77 @@
     };
 
 //
+//
+//-------------------- beep
+//
+    Blockly.Blocks['beep'] = {
+        init: function() {
+            this.appendDummyInput()
+                .appendField("Beep")
+                .appendField("music_num")
+                .appendField(new Blockly.FieldTextInput("1"), "music_num");
+            this.setInputsInline(true);
+            this.setPreviousStatement(true, "String");
+            this.setNextStatement(true, "String");
+            this.setColour(260);
+            this.setTooltip('');
+            this.setHelpUrl('http://code.pkmooc.com/');
+        }
+    };
+    Blockly.Python['beep'] = function(block) {
+        var music_num= block.getFieldValue('music_num');
+
+        var code = '';
+        //变为单行python代码
+        //todo：整合既有代码
+        code += `import beep;beep.play_music(${music_num})\n`; //笑脸 ,库预加载就不需要重复
+
+        //跑一个函数，发送代码
+        return code;
+    };
+
+    Blockly.Blocks['say'] = {
+        init: function() {
+            this.appendDummyInput()
+                .appendField("Say")
+                .appendField("content")
+                .appendField(new Blockly.FieldTextInput("1"), "content");
+            this.setInputsInline(true);
+            this.setPreviousStatement(true, "String");
+            this.setNextStatement(true, "String");
+            this.setColour(260);
+            this.setTooltip('');
+            this.setHelpUrl('http://code.pkmooc.com/');
+        }
+    };
+    Blockly.Python['say'] = function(block) {
+        var content= block.getFieldValue('content');
+        //unicode_content = toUnicode(content)
+        unicode_content = content
+        //"\u4F60\u597D" python中是str,解码为unicode
+
+        var code = '';
+        //变为单行python代码
+        //todo：整合既有代码
+        code += `import pc_client;pc_client.say(("${unicode_content}"))\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
+        //独立作为一个变量传递
+
+        //跑一个函数，发送代码
+        return code;
+    };
+
+
+
+function toUnicode(theString) {
+  var unicodeString = '';
+  for (var i = 0; i < theString.length; i++) {
+    var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
+    while (theUnicode.length < 4) {
+      theUnicode = '0' + theUnicode;
+    }
+    theUnicode = '\\u' + theUnicode;
+    unicodeString += theUnicode;
+  }
+  return unicodeString;
+}
+

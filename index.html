@@ -43,6 +43,8 @@
   <xml id="toolbox" style="display: none">
     <category name="pi">
       <block type="alphabet"></block>
+      <block type="beep"></block>
+      <block type="say"></block>
     </category>
     </category>
     <category name="Logic">
@@ -131,19 +133,23 @@
                                workspace);
 
     function wwjtest(code) {
+      //json
       ip = '192.168.0.127'
       blockly_server = 'http://192.168.0.127:5000/run'
-      code_base64 = Base64.encode(code); //base64
-      params = `key=test&code=${code_base64}`
-      console.log(params);
-      //params = "lorem=ipsum&name=binny";
+      //  code_base64=code
+      //code_base64 = window.btoa(unescape(encodeURIComponent( code )))
+      code_base64 = code
+      //code_base64 = Base64.encode(code); //base64
+      //params = `key=test&code=${code_base64}`
       xmlhttp=new XMLHttpRequest();
       xmlhttp.open("POST",blockly_server,true);
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.send(JSON.stringify({key:"test",code:code_base64}));
+      //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       //es6
       // var name = "wwj";
       //console.log(`hi, ${name}!`);
-      xmlhttp.send(params);
+      //xmlhttp.send(params);
     }
 
 
