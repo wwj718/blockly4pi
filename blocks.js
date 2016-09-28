@@ -2,6 +2,11 @@
 //todo : 打造案例
 // 如果算对就笑脸
 //
+// 设计参考：https://blockly.webduino.io/
+// http://ozoblockly.com/editor  ui微调
+//
+//细化的定制：
+//https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 // ─── ALPHABET ───────────────────────────────────────────────────────────────────
 //
 
@@ -9,6 +14,7 @@
     Blockly.Blocks['alphabet'] = {
         init: function() {
             this.appendDummyInput()
+                .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"))//led图标
                 .appendField("Led")
                 .appendField("开心") //实际是数字0-9
                 .appendField(new Blockly.FieldCheckbox("FALSE"), "happy")
@@ -22,7 +28,7 @@
             this.setPreviousStatement(true, "String");
             this.setNextStatement(true, "String");
             this.setColour(260);
-            this.setTooltip('');
+            this.setTooltip('led灯');
             this.setHelpUrl('http://code.pkmooc.com/');
         }
     };
@@ -50,6 +56,7 @@
     Blockly.Blocks['beep'] = {
         init: function() {
             this.appendDummyInput()
+                .appendField(new Blockly.FieldImage("http://edx-murp.qiniudn.com/favicon.ico", 15, 15, "*"))//murp 图标
                 .appendField("Beep")
                 .appendField("music_num")
                 .appendField(new Blockly.FieldTextInput("1"), "music_num");
