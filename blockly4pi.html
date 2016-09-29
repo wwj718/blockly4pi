@@ -44,18 +44,14 @@
   </style>
 </head>
 <body>
-<div class="row">
+
+<div class="row" style='margin:10px'>
   <div class="col-md-6"> <!--bootstrap栅格系统-->
-  <h1><a href="https://developers.google.com/blockly/">Blockly</a> &gt;
-    <a href="../index.html">Demos</a> &gt; Generating Python</h1>
 
-  <p>This is a simple demo of generating code from blocks.</p>
-
-  <p>&rarr; More info on <a href="https://developers.google.com/blockly/guides/configure/web/code-generators">Code Generators</a>&hellip;</p>
-
+  <h1>与物理世界交互</h1>
   <p>
-  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">Show Python</button> <!--todo:通过js设置disabled="disabled"-->
-    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">Run Python</button>
+  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">显示代码</button> <!--todo:通过js设置disabled="disabled"-->
+    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">运行代码</button>
   </p>
 
   <!--收集ip-->
@@ -68,7 +64,7 @@
   <!--help:ping  raspberrypi.local-->
   </form>
 
-  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <div  id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
   <xml id="toolbox" style="display: none">
     <category colour="210" name="树莓派">
@@ -172,35 +168,25 @@
                                workspace);
 
     function wwjtest(code) {
-      //json
-      ip = '192.168.0.127' //需要一个总的开始，填入ip
-      blockly_server = 'http://192.168.0.127:5000/run'
-      //  code_base64=code
+      var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
+      var blockly_server = `http://${ip}:5000/run`; //run
       //code_base64 = window.btoa(unescape(encodeURIComponent( code )))
       code_base64 = code
-      //code_base64 = Base64.encode(code); //base64
       xmlhttp=new XMLHttpRequest();
       xmlhttp.timeout = 8000;//10秒 //异步才有
       xmlhttp.ontimeout = function (e) {
         swal('请求超时')
         document.getElementById("runCode").disabled = false;
-        //document.getElementById("runCode").disabled = false;
       };
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
           code_result = JSON.parse(xmlhttp.response).code_result
            console.log(code_result);
           //sweetalert A beautiful replacement for JavaScript's "alert"
-
           document.getElementById("runCode").disabled = false;
           swal('运行结果:',code_result);
-          //document.getElementById("runCode").disabled = false;
-            //alert(xmlhttp.responseText);
-            //alert('运行成功');
-            //输出code_result
           };
         };
-
       xmlhttp.open("POST",blockly_server,true);//异步,同步是false
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(JSON.stringify({key:"test",code:code_base64}));
