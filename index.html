@@ -19,11 +19,18 @@
 
   <!--
   todo: boostrap  http://v3.bootcss.com/
-  ace
+  code editor:https://github.com/codemirror/CodeMirror
+  http://www.bootcdn.cn/codemirror/
   -->
   <!--bootstrap-->
   <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <!--<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+  <!--CodeMirror-->
+  <link href="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.css" rel="stylesheet">
+  <script src="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.js"></script>
+  <link href="http://cdn.bootcss.com/codemirror/5.19.0/theme/solarized.min.css" rel="stylesheet">
+  <script src="http://cdn.bootcss.com/codemirror/5.19.0/mode/python/python.min.js"></script>
 
   <style>
     body {
@@ -140,7 +147,11 @@
     </block>
   </xml>
 </div><!--end col-md-6-->
-  <div class="col-md-6">.col-md-6</div>
+  <div class="col-md-6">
+   <divi id="code_playgroud">
+    code_playgroud
+   </div>
+  </div>
 </div> <!--end row-->
 
   <script>
@@ -159,7 +170,7 @@
       code_base64 = code
       //code_base64 = Base64.encode(code); //base64
       xmlhttp=new XMLHttpRequest();
-      xmlhttp.timeout = 10000;//10秒 //异步才有
+      xmlhttp.timeout = 8000;//10秒 //异步才有
       xmlhttp.ontimeout = function (e) {
         swal('请求超时')
         document.getElementById("runCode").disabled = false;
@@ -195,15 +206,23 @@
       // Generate JavaScript code and display it.
       Blockly.Python.INFINITE_LOOP_TRAP = null;
       var code = Blockly.Python.workspaceToCode(workspace);
-      alert(code);
+      //写入到codemirror里
+      //editor.getValue(); 得到转义的
+      //editor.getTextArea().value; 得到未转义的
+      //editor.setValue('为codemirror赋值');
+      myCodeMirror.setValue(code)
+      //swal(code);
     }
 
     function runCode() {
       // Generate JavaScript code and run it.
       // 发送到硬件里
       Blockly.Python.INFINITE_LOOP_TRAP = null;
+      //get code from code code_playgroud
+      
       var code = Blockly.Python.workspaceToCode(workspace);
-      //console.log(code);
+      //var code = myCodeMirror.getValue();
+      console.log(code);
       //设置按钮：document.getElementById("myBtn").disabled = true;
       document.getElementById("runCode").disabled = true;
       wwjtest(code);
@@ -212,5 +231,15 @@
     }
   </script>
 
+  <script type="text/javascript" charset="utf-8">
+myCodeMirror = CodeMirror(document.getElementById("code_playgroud"), {
+    lineNumbers: true,
+    styleActiveLine: true,
+    value: "def hello()\n    print 'hello world'\n",
+      mode:  "python"
+}); //全局
+var theme="solarized dark";
+myCodeMirror.setOption("theme", theme);
+  </script>
 </body>
 </html>
