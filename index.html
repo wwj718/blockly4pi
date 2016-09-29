@@ -8,11 +8,22 @@
   <script src="javascript_compressed.js"></script>
   <script src="python_compressed.js"></script>
   <script src="zh-hans.js"></script>
-  <script src="base64.min.js"></script>
 
   <!--pi core-->
   <script src="blocks.js"></script>
 
+  <!--alert plugin-->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type="text/css" media="all" />
+  <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+  
+
+  <!--
+  todo: boostrap  http://v3.bootcss.com/
+  ace
+  -->
+  <!--bootstrap-->
+  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!--<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
   <style>
     body {
@@ -26,6 +37,8 @@
   </style>
 </head>
 <body>
+<div class="row">
+  <div class="col-md-6"> <!--bootstrap栅格系统-->
   <h1><a href="https://developers.google.com/blockly/">Blockly</a> &gt;
     <a href="../index.html">Demos</a> &gt; Generating Python</h1>
 
@@ -34,8 +47,8 @@
   <p>&rarr; More info on <a href="https://developers.google.com/blockly/guides/configure/web/code-generators">Code Generators</a>&hellip;</p>
 
   <p>
-    <button onclick="showCode()">Show Python</button>
-    <button onclick="runCode()">Run Python</button>
+  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">Show Python</button> <!--todo:通过js设置disabled="disabled"-->
+    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">Run Python</button>
   </p>
 
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
@@ -45,6 +58,8 @@
       <block type="alphabet"></block>
       <block type="beep"></block>
       <block type="say"></block>
+      <block type="train_your_ai"></block>
+      <block type="talk_with_ai"></block>
     </category>
     </category>
     <category name="Logic">
@@ -124,6 +139,9 @@
       </statement>
     </block>
   </xml>
+</div><!--end col-md-6-->
+  <div class="col-md-6">.col-md-6</div>
+</div> <!--end row-->
 
   <script>
     var workspace = Blockly.inject('blocklyDiv',
@@ -141,15 +159,24 @@
       code_base64 = code
       //code_base64 = Base64.encode(code); //base64
       xmlhttp=new XMLHttpRequest();
-      xmlhttp.timeout = 2000; //异步才有
+      xmlhttp.timeout = 10000;//10秒 //异步才有
       xmlhttp.ontimeout = function (e) {
-        alert('请求超时')
+        swal('请求超时')
+        document.getElementById("runCode").disabled = false;
+        //document.getElementById("runCode").disabled = false;
       };
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-           console.log(JSON.parse(xmlhttp.response));
+          code_result = JSON.parse(xmlhttp.response).code_result
+           console.log(code_result);
+          //sweetalert A beautiful replacement for JavaScript's "alert"
+
+          document.getElementById("runCode").disabled = false;
+          swal('运行结果:',code_result);
+          //document.getElementById("runCode").disabled = false;
             //alert(xmlhttp.responseText);
-            alert('运行成功');
+            //alert('运行成功');
+            //输出code_result
           };
         };
 
@@ -177,6 +204,8 @@
       Blockly.Python.INFINITE_LOOP_TRAP = null;
       var code = Blockly.Python.workspaceToCode(workspace);
       //console.log(code);
+      //设置按钮：document.getElementById("myBtn").disabled = true;
+      document.getElementById("runCode").disabled = true;
       wwjtest(code);
       //1+5加号会没掉
       //alert(code);
