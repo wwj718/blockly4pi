@@ -58,6 +58,16 @@
     <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">Run Python</button>
   </p>
 
+  <!--收集ip-->
+  <form style='margin:10px' role="form" onsubmit="check_pi_access();return false;"> <!--点击后调用函数验证,直接回调 不要用jquery-->
+  <div class="form-group">
+    <label for="pi_ip">填写树莓派IP(可使用 ping  raspberrypi.local 获得)</label>
+    <input autocomplete="on" autofocus required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" class="form-control" id="pi_ip" placeholder="192.168.0.127">
+  </div>
+  <button type="submit" type="button" class="btn btn-success" class="btn btn-default">连接树莓派</button> <!--树莓派那边写一个access,显示连接成功-->
+  <!--help:ping  raspberrypi.local-->
+  </form>
+
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
   <xml id="toolbox" style="display: none">
@@ -229,6 +239,28 @@
       //1+5加号会没掉
       //alert(code);
     }
+
+function  check_pi_access(){
+      var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
+      var blockly_server = `http://${ip}:5000/access`; //access
+      var xmlhttp=new XMLHttpRequest();
+      xmlhttp.timeout = 3000;  //10秒 //异步才有
+      xmlhttp.ontimeout = function (e) {
+        swal('请求超时');
+      };
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           console.log("树莓派连接成功");
+           swal("树莓派连接成功");
+          };
+      }
+ 
+      xmlhttp.open("GET",blockly_server,true);//异步,同步是false
+      xmlhttp.send();
+}
+  
+
+
   </script>
 
   <script type="text/javascript" charset="utf-8">
