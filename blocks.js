@@ -142,6 +142,7 @@
         return code;
     };
 
+// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#sg2z4v  新的模板
 
 Blockly.Blocks['talk_with_ai'] = {
         init: function() {
@@ -149,6 +150,7 @@ Blockly.Blocks['talk_with_ai'] = {
                 .appendField("你说") //输出
                 .appendField("content")
                 .appendField(new Blockly.FieldTextInput("query"), "content");
+            //this.appendValueInput('VALUE').setCheck(['String', 'Array']);
             this.setInputsInline(true);
             this.setPreviousStatement(true, "String");
             this.setNextStatement(true, "String");
