@@ -111,7 +111,7 @@
         //跑一个函数，发送代码
         return code;
     };
-
+    //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ncsz63
     Blockly.Blocks['train_your_ai'] = {
         init: function() {
             this.appendDummyInput()
@@ -227,6 +227,7 @@ Blockly.Python['get_distance'] = function(block) {
 //sleep
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ytviqi
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#8vwuu3
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ndieuv 图标
 
 Blockly.Blocks['time_sleep'] = {
   init: function() {

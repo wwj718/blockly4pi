@@ -8,13 +8,15 @@ blockly4pi
     *   增加超声波传感器和time sleep功能
 
 # todo
-*  对完成的程序进行管理
+[ ] 对完成的程序进行管理
     *  指定目录
     *  文件名，时间戳
     *  对文件的增删改
     *  多进程(进程控制)
-*  UI
-*  switch 代码框
+[ ]  UI
+[ ]  switch 代码框
+[ ]  把引脚统一收集到一个文件夹，允许前端修改
+[ ]  把pi module同一写到文件头  
 
 # 参考
 *  [blockly doc](https://developers.google.com/blockly/)
