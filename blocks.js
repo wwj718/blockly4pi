@@ -12,7 +12,7 @@
 // ─── ALPHABET ───────────────────────────────────────────────────────────────────
 //
 
-
+    'use strict';
     Blockly.Blocks['alphabet'] = {
         init: function() {
             this.appendDummyInput()
@@ -181,7 +181,7 @@ Blockly.Blocks['talk_with_ai'] = {
     };
 
 
-
+/*
 function toUnicode(theString) {
   var unicodeString = '';
   for (var i = 0; i < theString.length; i++) {
@@ -194,4 +194,57 @@ function toUnicode(theString) {
   }
   return unicodeString;
 }
+*/
 
+//写一个只有输出的块：获取障碍物距离（超声波传感器）
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#3f2ous
+//https://developers.google.com/blockly/guides/configure/web/code-generators
+//https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
+// https://github.com/google/blockly/blob/master/generators/python/math.js  实际例子 跟踪：math_number
+Blockly.Blocks['get_distance'] = {
+  init: function() {
+    this.appendDummyInput()
+    .appendField("get_distance");
+    this.setOutput(true, "Number");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['get_distance'] = function(block) {
+  // TODO: Assemble Python into code variable.
+  // distance 全局,得到的是代码，需要代码编译完才是想要的,赋值给变量
+  var code = 'distance.get_distance()';
+  //这里有个层次的问题，如何获得另一个语言里的变量,如何输出为数字
+  //硬件的输出如何变为一个块 可被其他读取,并没有对接到其他部分,不能是python代码
+  // TODO: Change ORDER_NONE to the correct strength.
+  // 需要回传数值，用于变量
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+//sleep
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ytviqi
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#8vwuu3
+
+Blockly.Blocks['time_sleep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("休眠时间")
+        .appendField(new Blockly.FieldNumber(1, 0), "mytime");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+}
+
+Blockly.Python['time_sleep'] = function(block) {
+  var number_mytime = block.getFieldValue('mytime');
+  // TODO: Assemble Python into code variable.
+  var code = `import time;time.sleep(${number_mytime})\n`;
+  return code;
+};
