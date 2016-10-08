@@ -3,7 +3,18 @@ blockly4pi
 
 # 版本说明
 *  v0.1: 完成核心功能，文件尚未完全变成外部依赖(传至七牛)
+*  v0.2
+    *   文件全部托管到七牛，只需要访问一个html文件即可
+    *   增加超声波传感器和time sleep功能
 
+# todo
+*  对完成的程序进行管理
+    *  指定目录
+    *  文件名，时间戳
+    *  对文件的增删改
+    *  多进程(进程控制)
+*  UI
+*  switch 代码框
 
 # 参考
 *  [blockly doc](https://developers.google.com/blockly/)
