@@ -225,6 +225,7 @@ Blockly.Python['get_distance'] = function(block) {
 };
 
 //sleep
+//输入为数字的模块
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ytviqi
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#8vwuu3
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ndieuv 图标
@@ -247,5 +248,28 @@ Blockly.Python['time_sleep'] = function(block) {
   var number_mytime = block.getFieldValue('mytime');
   // TODO: Assemble Python into code variable.
   var code = `import time;time.sleep(${number_mytime})\n`;
+  return code;
+};
+
+//发送邮件
+Blockly.Blocks['send_email'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("报警模块 >  邮箱地址：")
+        .appendField(new Blockly.FieldTextInput("code@pkmooc.com"), "email");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['send_email'] = function(block) {
+  var text_email = block.getFieldValue('email');
+  // TODO: Assemble Python into code variable.
+  var code = `send_emails.send_mail(["${text_email}",])\n`;
   return code;
 };
