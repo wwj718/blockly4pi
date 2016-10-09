@@ -49,8 +49,9 @@
 
   <h1>与物理世界交互</h1>
   <p>
-  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">显示代码</button> <!--todo:通过js设置disabled="disabled"-->
-    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">运行代码</button>
+  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">显示程序</button> <!--todo:通过js设置disabled="disabled"-->
+    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">运行程序</button>
+    <button type="button" id='runCode' class="btn btn-lg btn-warning" disabled="disabled" >获取云端程序(内测中)</button>
   </p>
 
   <!--收集ip-->
@@ -66,16 +67,18 @@
   <div  id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
   <xml id="toolbox" style="display: none">
-    <category colour="210" name="树莓派">
+    <category colour="210" name="传感器">
       <block type="alphabet"></block>
       <block type="beep"></block>
       <block type="say"></block>
-      <block type="train_your_ai"></block>
-      <block type="talk_with_ai"></block>
       <block type="get_distance"></block>
       <block type="time_sleep"></block>
       <block type="send_email"></block>
     </category>
+    <category name="人工智能">
+      <block type="train_your_ai"></block>
+      <block type="talk_with_ai"></block>
+      <block type="talk_with_cloud_ai"></block>
     </category>
     <category name="逻辑">
       <block type="controls_if"></block>

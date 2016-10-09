@@ -111,7 +111,8 @@
         //跑一个函数，发送代码
         return code;
     };
-    //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ncsz63
+    //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#rsqq9r
+    /*
     Blockly.Blocks['train_your_ai'] = {
         init: function() {
             this.appendDummyInput()
@@ -142,8 +143,11 @@
         return code;
     };
 
-// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#sg2z4v  新的模板
 
+*/
+
+// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#sg2z4v  新的模板
+/*
 Blockly.Blocks['talk_with_ai'] = {
         init: function() {
             this.appendDummyInput()
@@ -161,25 +165,12 @@ Blockly.Blocks['talk_with_ai'] = {
     };
     Blockly.Python['talk_with_ai'] = function(block) {
         var content= block.getFieldValue('content');
-        //unicode_content = toUnicode(content)
-        //"\u4F60\u597D" python中是str,解码为unicode
 
         var code = '';
-        //变为单行python代码
-        //todo：整合既有代码
-        //需要一个list,数组
-        //切割空格,变为数组
-        //"Hello awesome, world!".split(/\s+/) //["Hello", "awesome", "world!"]
-        //切割一个或多个空格
-        //假设传进去的就是纯文本好了
-        //作为一个返回值
         code += `import chatbot;response=chatbot.chat("${content}".decode('utf-8'));print(response)\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
-        //独立作为一个变量传递
-
-        //跑一个函数，发送代码
         return code;
     };
-
+*/
 
 /*
 function toUnicode(theString) {
@@ -197,7 +188,7 @@ function toUnicode(theString) {
 */
 
 //写一个只有输出的块：获取障碍物距离（超声波传感器）
-//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#3f2ous
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#a88ugi 完整版
 //https://developers.google.com/blockly/guides/configure/web/code-generators
 //https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 // https://github.com/google/blockly/blob/master/generators/python/math.js  实际例子 跟踪：math_number
@@ -271,5 +262,82 @@ Blockly.Python['send_email'] = function(block) {
   var text_email = block.getFieldValue('email');
   // TODO: Assemble Python into code variable.
   var code = `send_emails.send_mail(["${text_email}",])\n`;
+  return code;
+};
+
+
+/*
+ * AI 部分
+ */
+
+//与云端ai对话
+//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#zjo33n
+Blockly.Blocks['talk_with_cloud_ai'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("与云端AI对话：")
+        .appendField(new Blockly.FieldTextInput("你好"), "cloud_ai_request");
+    this.setOutput(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['talk_with_cloud_ai'] = function(block) {
+  var text_cloud_ai_request = block.getFieldValue('cloud_ai_request');
+  // TODO: Assemble Python into code variable.
+  var code = `cloud_ai.get_response("${text_cloud_ai_request}".decode('utf-8'))`;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+
+Blockly.Blocks['talk_with_ai'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("与本地AI对话：")
+        .appendField(new Blockly.FieldTextInput("你好"), "talk_request");
+    this.setOutput(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['talk_with_ai'] = function(block) {
+  var talk_request = block.getFieldValue('talk_request');
+  // TODO: Assemble Python into code variable.
+  var code = `chatbot.chat("${talk_request}".decode('utf-8'))\n`;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+//train_your_ai
+Blockly.Blocks['train_your_ai'] = {
+  init: function() {
+    this.appendValueInput("your_ai_request")
+        .setCheck(null)
+        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"))
+        .appendField("提问");
+    this.appendValueInput("your_ai_response")
+        .setCheck(null)
+        .appendField(new Blockly.FieldImage("", 15, 15, "*"))
+        .appendField("回答");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Python['train_your_ai'] = function(block) {
+  var value_your_ai_request = Blockly.Python.valueToCode(block, 'your_ai_request', Blockly.Python.ORDER_ATOMIC);
+  var value_your_ai_response = Blockly.Python.valueToCode(block, 'your_ai_response', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = `chatbot.train("${value_your_ai_request} ${value_your_ai_response}".decode('utf-8'))\n`;
   return code;
 };
