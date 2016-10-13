@@ -21,6 +21,14 @@ document.getElementById('mytools').innerHTML = html; //来自另一个文件怎�
 
 */
 
+/*todo list
+ *
+ *
+ *
+ *
+ *
+ */
+
 //mytools
 var mytools_tpl = `
 <h1>工具</h1>
@@ -48,11 +56,13 @@ var mytools_tpl = `
   <ul class="dropdown-menu" role="menu">
     <li><a href="#">分享当前程序到云端</a></li>
     <li><a href="#">查看流行程序</a></li>
+    <li><a href="#ip:9001/logtail/ngrok">远程控制（协助）</a></li>
     <li class="divider"></li>
     <li><a href="#">进入云中心</a></li>
   </ul>
 </div>
 `
+
 //todo 写渲染函数,模块化
 
 var mytools_data = {};

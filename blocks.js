@@ -81,13 +81,13 @@
         //跑一个函数，发送代码
         return code;
     };
-
+/*
     Blockly.Blocks['say'] = {
         init: function() {
             this.appendDummyInput()
-                .appendField("Say")
-                .appendField("content")
-                .appendField(new Blockly.FieldTextInput("1"), "content");
+                .appendField("说话")
+                .appendField("内容")
+                .appendField(new Blockly.FieldTextInput("1"), "say_content");
             this.setInputsInline(true);
             this.setPreviousStatement(true, "String");
             this.setNextStatement(true, "String");
@@ -97,20 +97,12 @@
         }
     };
     Blockly.Python['say'] = function(block) {
-        var content= block.getFieldValue('content');
-        //unicode_content = toUnicode(content)
-        unicode_content = content
-        //"\u4F60\u597D" python中是str,解码为unicode
-
+        var say_content= block.getFieldValue('say_content');
         var code = '';
-        //变为单行python代码
-        //todo：整合既有代码
-        code += `import pc_client;pc_client.say(("${unicode_content}"))\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
-        //独立作为一个变量传递
-
-        //跑一个函数，发送代码
+        code += `pc_client.say(("${say_content}"))\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
         return code;
     };
+*/
     //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#rsqq9r
     /*
     Blockly.Blocks['train_your_ai'] = {
@@ -341,3 +333,68 @@ Blockly.Python['train_your_ai'] = function(block) {
   var code = `chatbot_client.train("${value_your_ai_request} ${value_your_ai_response}".decode('utf-8'))\n`;
   return code;
 };
+
+
+
+    Blockly.Blocks['say'] = {
+        init: function() {
+            this.appendValueInput("say_content")
+            .setCheck(null)
+            .appendField("说话内容");
+            this.setPreviousStatement(true, null);
+            this.setNextStatement(true, null);
+            this.setColour(260);
+            this.setTooltip('');
+            this.setHelpUrl('http://code.pkmooc.com/');
+        }
+    };
+    Blockly.Python['say'] = function(block) {
+        var say_content = Blockly.Python.valueToCode(block, 'say_content', Blockly.Python.ORDER_ATOMIC);
+        var code = '';
+        code += `pc_client.say(${say_content})\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
+        return code;
+    };
+
+
+Blockly.Blocks['sox_record'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("录音时长:")
+        .appendField(new Blockly.FieldNumber(1, 0), "record_time");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+}
+
+//play record
+Blockly.Python['sox_record'] = function(block) {
+  var number_record_time = block.getFieldValue('record_time');
+  // TODO: Assemble Python into code variable.
+  var code = `pc_client.sox(${number_record_time})\n`;
+  return code;
+};
+
+Blockly.Blocks['play_record'] = {
+  init: function() {
+    this.appendDummyInput()
+    .appendField("播放录制的声音");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['play_record'] = function(block) {
+  var code = 'pc_client.play()\n';
+  return code;
+};
+
+
