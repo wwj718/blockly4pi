@@ -310,7 +310,7 @@ Blockly.Blocks['talk_with_ai'] = {
 Blockly.Python['talk_with_ai'] = function(block) {
   var talk_request = block.getFieldValue('talk_request');
   // TODO: Assemble Python into code variable.
-  var code = `chatbot.chat("${talk_request}".decode('utf-8'))\n`;
+  var code = `chatbot_client.chat("${talk_request}".decode('utf-8'))\n`;
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
@@ -338,6 +338,6 @@ Blockly.Python['train_your_ai'] = function(block) {
   var value_your_ai_request = Blockly.Python.valueToCode(block, 'your_ai_request', Blockly.Python.ORDER_ATOMIC);
   var value_your_ai_response = Blockly.Python.valueToCode(block, 'your_ai_response', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = `chatbot.train("${value_your_ai_request} ${value_your_ai_response}".decode('utf-8'))\n`;
+  var code = `chatbot_client.train("${value_your_ai_request} ${value_your_ai_response}".decode('utf-8'))\n`;
   return code;
 };
