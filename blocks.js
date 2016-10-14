@@ -16,7 +16,7 @@
     Blockly.Blocks['alphabet'] = {
         init: function() {
             this.appendDummyInput()
-                .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"))//led图标
+                .appendField(new Blockly.FieldImage("", 15, 15, "*"))//led图标
                 .appendField("Led")
                 .appendField("开心") //实际是数字0-9
                 .appendField(new Blockly.FieldCheckbox("FALSE"), "happy")
@@ -24,8 +24,6 @@
                 .appendField(new Blockly.FieldCheckbox("FALSE"), "sad")
                 .appendField("清理屏幕") //大写字母
                 .appendField(new Blockly.FieldCheckbox("FALSE"), "clear")
-                .appendField("pi_ip")
-                .appendField(new Blockly.FieldTextInput("192.168.0.127"), "pi_ip");
             this.setInputsInline(true);
             this.setPreviousStatement(true, "String");
             this.setNextStatement(true, "String");
@@ -38,7 +36,6 @@
         var checkbox_numbers = block.getFieldValue('happy') == 'TRUE';
         var checkbox_lowercase = block.getFieldValue('sad') == 'TRUE';
         var checkbox_uppercase = block.getFieldValue('clear') == 'TRUE';
-        var pi_ip = block.getFieldValue('pi_ip');
 
         var code = '';
         //变为单行python代码
@@ -59,8 +56,7 @@
         init: function() {
             this.appendDummyInput()
                 .appendField(new Blockly.FieldImage("http://edx-murp.qiniudn.com/favicon.ico", 15, 15, "*"))//murp 图标
-                .appendField("Beep")
-                .appendField("music_num")
+                .appendField("音乐 曲目选择")
                 .appendField(new Blockly.FieldTextInput("1"), "music_num");
             this.setInputsInline(true);
             this.setPreviousStatement(true, "String");
@@ -187,7 +183,7 @@ function toUnicode(theString) {
 Blockly.Blocks['get_distance'] = {
   init: function() {
     this.appendDummyInput()
-    .appendField("get_distance");
+    .appendField("获取障碍物距离");
     this.setOutput(true, "Number");
     this.setColour(210);
     this.setTooltip('');
@@ -312,7 +308,7 @@ Blockly.Blocks['train_your_ai'] = {
   init: function() {
     this.appendValueInput("your_ai_request")
         .setCheck(null)
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"))
+        .appendField(new Blockly.FieldImage("", 15, 15, "*"))
         .appendField("提问");
     this.appendValueInput("your_ai_response")
         .setCheck(null)
