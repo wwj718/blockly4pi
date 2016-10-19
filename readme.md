@@ -9,6 +9,11 @@ blockly4pi
 *  v0.3
     *  增加ai模块
     *  添加邮件报警模块
+*  v0.4
+    *  增加变量/函数组
+    *  使用模板(tools_template.js)
+    *  增加红外模块
+    *  使用浏览器缓存(storage.js)
 
 # todo
 [ ] 对完成的程序进行管理
