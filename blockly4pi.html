@@ -201,8 +201,8 @@ var workspace = Blockly.inject('blocklyDiv',
 //如何生成xml
 //document.getElementById('toolbox')
 
-window.setTimeout(BlocklyStorage.restoreBlocks, 0);
-BlocklyStorage.backupOnUnload(); // listener on the page's unload event
+window.setTimeout(BlocklyStorage.restoreBlocks, 0); //定时存储，也可模仿它来上传状态  storage.js->Blockly.getMainWorkspace()，可以加上workspace参数
+BlocklyStorage.backupOnUnload(); // listener on the page's unload event  //拉取状态同步到本地
 
 function wwjtest(code) {
       var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
@@ -255,6 +255,25 @@ function runCode() {
       //1+5加号会没掉
       //alert(code);
     }
+
+
+//获取workspace的xml_text
+function get_xml_text(opt_workspace){
+var workspace = opt_workspace || Blockly.getMainWorkspace();
+var xml = Blockly.Xml.workspaceToDom(workspace)
+var xml_text = Blockly.Xml.domToText(xml)
+console.log(xml_text)
+return xml_text
+}
+
+
+//设置xml_text到workspace
+function set_workspace(xml_text,opt_workspace){
+var workspace = opt_workspace || Blockly.getMainWorkspace();
+var xml = Blockly.Xml.textToDom(xml_text);
+Blockly.Xml.domToWorkspace(xml, workspace);
+}
+
 
 function  check_pi_access(){
       var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
