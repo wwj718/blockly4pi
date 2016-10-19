@@ -37,6 +37,10 @@
   <!--arttemplate-->
   <script src="http://ocfy0072v.bkt.clouddn.com/template.js"></script>
 
+
+  <!--kinto-http.min.js-->
+  <script src="http://7sby7q.com1.z0.glb.clouddn.com/kinto-http.min.js"></script>
+
   <style>
     body {
       background-color: #fff;
@@ -271,6 +275,8 @@ return xml_text
 function set_workspace(xml_text,opt_workspace){
 var workspace = opt_workspace || Blockly.getMainWorkspace();
 var xml = Blockly.Xml.textToDom(xml_text);
+//清理掉原先的
+workspace.clear();
 Blockly.Xml.domToWorkspace(xml, workspace);
 }
 
@@ -308,5 +314,73 @@ myCodeMirror.setOption("theme", theme);
 </script>
 
 <script src="tools_template.js"></script> <!--本地模板-->
+
+
+<script type="text/javascript" charset="utf-8">
+//kinto-http.js
+function kinto_init(){
+var username = "pi"
+var password = "pi"
+var ip = document.getElementById('pi_ip').value;
+const secretString = `${username}:${password}`;
+const kinto_client = new KintoClient(`http://${ip}:8888/v1`, {
+        headers: {Authorization: "Basic " + btoa(secretString)}
+});
+return kinto_client
+
+//blockly  gist
+//usege
+// kinto_client = kinto_init()
+//create
+// gist = kinto_client.bucket("blockly").collection("gist")
+// gist.createRecord({title: "My first post", content: "Hello World!"})
+//get
+// gist.listRecords().then(result => console(result.data));
+  }
+
+function create_gist(){
+  //获得xml_text
+  var xml_text = get_xml_text();
+  var kinto_client = kinto_init();
+  var gist = kinto_client.bucket("blockly").collection("gist");
+  gist.createRecord({title: "mytest1", content: xml_text});
+}
+
+function list_gist(handle){ //show_gists
+  //获得xml_text
+  var xml_text = get_xml_text();
+  var kinto_client = kinto_init();
+  var gist = kinto_client.bucket("blockly").collection("gist");
+  gist.listRecords().then(result => handle(result.data)); //基于事件，而不是序列
+}
+
+function show_gists(gists){
+for(let item of gists) {
+  console.log(item)
+}
+}
+
+function lastest_gist_insert(gists){
+  //最新的
+  content = gists[0].content;
+  //console.log(gists[0].content)  //sort: The order field (default: -last_modified)
+  set_workspace(content);
+}
+
+$("#gist_share").click(function(event){
+event.preventDefault();
+create_gist();
+swal("分享成功")
+})
+
+$("#get_gist_lastest").click(function(event){
+event.preventDefault();
+list_gist(lastest_gist_insert);
+})
+
+
+
+</script>
+
 </body>
 </html>

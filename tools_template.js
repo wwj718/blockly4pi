@@ -54,7 +54,8 @@ var mytools_tpl = `
     云端程序 <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a href="#">分享当前程序到云端</a></li>
+    <li><a  id="gist_share" href="#">分享当前程序到云端</a></li>
+    <li><a  id="get_gist_lastest" href="#">拉取最近上传的程序</a></li>
     <li><a href="#">查看流行程序</a></li>
     <li><a href="#ip:9001/logtail/ngrok">远程控制（协助）</a></li>
     <li class="divider"></li>

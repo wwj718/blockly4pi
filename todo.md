@@ -9,3 +9,5 @@
 [ ] Disabled 模块的可用性：https://developers.google.com/blockly/guides/configure/web/toolbox
 [ ] 函数/ide：https://blockly-demo.appspot.com/static/demos/code/index.html
 [ ] 使用这个重构：https://blockly-demo.appspot.com/static/demos/code/code.js
+[ ] 浏览器缓存ip表单
+[ ] 同时支持存储到本地和上传云端,都用kinto
