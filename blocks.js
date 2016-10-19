@@ -347,7 +347,7 @@ Blockly.Python['train_your_ai'] = function(block) {
     Blockly.Python['say'] = function(block) {
         var say_content = Blockly.Python.valueToCode(block, 'say_content', Blockly.Python.ORDER_ATOMIC);
         var code = '';
-        code += `pc_client.say(${say_content})\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
+        code += `pi_media.say(${say_content})\n`; //笑脸 ,库预加载就不需要重复 //unicode的问题,被编码了,在js这里被编码了,js这里变为unicode
         return code;
     };
 
@@ -370,10 +370,12 @@ Blockly.Blocks['sox_record'] = {
 Blockly.Python['sox_record'] = function(block) {
   var number_record_time = block.getFieldValue('record_time');
   // TODO: Assemble Python into code variable.
-  var code = `pc_client.sox(${number_record_time})\n`;
+  var code = `pi_media.sox(${number_record_time})\n`;
   return code;
 };
 
+
+// 播放声音
 Blockly.Blocks['play_record'] = {
   init: function() {
     this.appendDummyInput()
@@ -389,7 +391,48 @@ Blockly.Blocks['play_record'] = {
 
 
 Blockly.Python['play_record'] = function(block) {
-  var code = 'pc_client.play()\n';
+  var code = 'pi_media.play()\n';
+  return code;
+};
+
+//录制红外
+Blockly.Blocks['infrared_record'] = {
+  init: function() {
+    this.appendDummyInput()
+    .appendField("录制红外信号")
+    .appendField(new Blockly.FieldTextInput(""), "infrared_record");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['infrared_record'] = function(block) {
+  var code = 'pi_media.lirc_record()\n';
+  return code;
+};
+
+//发射红外
+Blockly.Blocks['infrared_send'] = {
+  init: function() {
+    this.appendDummyInput()
+    .appendField("发射红外信号");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['infrared_send'] = function(block) {
+  var code = 'pi_media.send_infrared()\n';
   return code;
 };
 
