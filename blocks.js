@@ -436,4 +436,22 @@ Blockly.Python['infrared_send'] = function(block) {
   return code;
 };
 
+//获取温度
+Blockly.Blocks['get_temperature'] = {
+  init: function() {
+    this.appendDummyInput()
+    .appendField("获得当前温度");
+    this.setOutput(true, "Number");
+    this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Python['get_temperature'] = function(block) {
+  var code = 'DHT11.GetResult(output="temperature")'; //湿度 output="humidity" ,默认是温度
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
 

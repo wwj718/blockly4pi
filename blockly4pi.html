@@ -1,326 +1,367 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>Blockly Demo: Generating Python</title>
-  <script src="blockly_compressed.js"></script>
-  <script src="blocks_compressed.js"></script>
-  <script src="python_compressed.js"></script>
-  <script src="zh-hans.js"></script>
-  <script src="storage.js"></script>
-  
+    <meta charset="utf-8">
+    <title>Blockly Demo: Generating Python</title>
+    <script src="blockly_compressed.js"></script>
+    <script src="blocks_compressed.js"></script>
+    <script src="python_compressed.js"></script>
+    <script src="zh-hans.js"></script>
+    <script src="storage.js"></script>
 
-  <!--pi core-->
-  <script src="blocks.js"></script>
 
-  <!--alert plugin-->
-  <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type="text/css" media="all" />
-  <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script> 
-  
+    <!--pi core-->
+    <script src="blocks.js"></script>
 
-  <!--
+    <!--alert plugin-->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css"
+        type="text/css" media="all" />
+    <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+
+    <!--
   todo: boostrap  http://v3.bootcss.com/
   code editor:https://github.com/codemirror/CodeMirror
   http://www.bootcdn.cn/codemirror/
   -->
-  <!--bootstrap-->
-  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-  <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><!--需要jquery-->
-  <!--模态框组件 简化bs的模态框-->
-    <script src="http://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"></script> <!--jquery 大于1.9.1-->
-  <!--CodeMirror-->
-  <link href="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.css" rel="stylesheet">
-  <script src="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.js"></script>
-  <link href="http://cdn.bootcss.com/codemirror/5.19.0/theme/solarized.min.css" rel="stylesheet">
-  <script src="http://cdn.bootcss.com/codemirror/5.19.0/mode/python/python.min.js"></script>
+    <!--bootstrap-->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--需要jquery-->
+    <!--模态框组件 简化bs的模态框-->
+    <script src="http://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <!--jquery 大于1.9.1-->
+    <!--CodeMirror-->
+    <link href="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/codemirror/5.19.0/codemirror.js"></script>
+    <link href="http://cdn.bootcss.com/codemirror/5.19.0/theme/solarized.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/codemirror/5.19.0/mode/python/python.min.js"></script>
 
-  <!--arttemplate-->
-  <script src="http://ocfy0072v.bkt.clouddn.com/template.js"></script>
+    <!--arttemplate-->
+    <script src="http://ocfy0072v.bkt.clouddn.com/template.js"></script>
 
 
-  <!--kinto-http.min.js-->
-  <script src="http://7sby7q.com1.z0.glb.clouddn.com/kinto-http.min.js"></script>
+    <!--kinto-http.min.js-->
+    <script src="http://7sby7q.com1.z0.glb.clouddn.com/kinto-http.min.js"></script>
 
-  <style>
-    body {
-      background-color: #fff;
-      font-family: sans-serif;
-    }
-    h1 {
-      font-weight: normal;
-      font-size: 140%;
-    }
-  </style>
+    <style>
+        body {
+            background-color: #fff;
+            font-family: sans-serif;
+        }
+        
+        h1 {
+            font-weight: normal;
+            font-size: 140%;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="row" style='margin:10px'>
-  <div class="col-md-6"> <!--bootstrap栅格系统-->
+    <div class="row" style='margin:10px'>
+        <div class="col-md-6">
+            <!--bootstrap栅格系统-->
 
-  <h1>与物理世界交互</h1>
-  <p>
-  <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">显示程序</button> <!--todo:通过js设置disabled="disabled"-->
-    <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">运行程序</button>
-    <button type="button" id='runCode' class="btn btn-lg btn-warning" disabled="disabled" >获取云端程序(内测中)</button>
-  </p>
+            <h1>与物理世界交互</h1>
+            <p>
+                <button type="button" id='showCode' class="btn btn-lg btn-info" onclick="showCode()">显示程序</button>
+                <!--todo:通过js设置disabled="disabled"-->
+                <button type="button" id='runCode' class="btn btn-lg btn-primary" onclick="runCode()">运行程序</button>
+                <button type="button" id='runCode' class="btn btn-lg btn-warning" disabled="disabled">获取云端程序(内测中)</button>
+            </p>
 
-  <!--收集ip-->
-  <form style='margin:10px' role="form" onsubmit="check_pi_access();return false;"> <!--点击后调用函数验证,直接回调 不要用jquery-->
-  <div class="form-group">
-    <label for="pi_ip">填写树莓派IP(可使用 ping  raspberrypi.local 获得)</label>
-    <input autocomplete="on" autofocus required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$" class="form-control" id="pi_ip" placeholder="192.168.0.127">
-  </div>
-  <button type="submit" type="button" class="btn btn-success" class="btn btn-default">连接树莓派</button> <!--树莓派那边写一个access,显示连接成功-->
-  <!--help:ping  raspberrypi.local-->
-  </form>
+            <!--收集ip-->
+            <form style='margin:10px' role="form" onsubmit="check_pi_access();return false;">
+                <!--点击后调用函数验证,直接回调 不要用jquery-->
+                <div class="form-group">
+                    <label for="pi_ip">填写树莓派IP(可使用 ping  raspberrypi.local 获得)</label>
+                    <input autocomplete="on" autofocus required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
+                        class="form-control" id="pi_ip" placeholder="192.168.0.127">
+                </div>
+                <button type="submit" type="button" class="btn btn-success" class="btn btn-default">连接树莓派</button>
+                <!--树莓派那边写一个access,显示连接成功-->
+                <!--help:ping  raspberrypi.local-->
+            </form>
 
-  <div  id="blocklyDiv" style="height: 400px; width: 600;" ></div>
+            <div id="blocklyDiv" style="height: 400px; width: 600;"></div>
 
-  <xml id="toolbox" style="display: none">
-    <category colour="210" name="传感器">
-      <block type="alphabet"></block>
-      <block type="get_distance"></block>
-      <block type="infrared_record"></block>
-      <block type="infrared_send"></block>
-    </category>
-    <category colour="230" name="系统功能">
-      <block type="time_sleep"></block>
-    </category>
-    <category name="输入输出">
-      <block type="beep"></block>
-      <block type="play_record"></block>
-      <block type="sox_record"></block>
-      <block type="say"></block>
-    </category>
-    <category name="网络">
-      <block type="send_email"></block>
-    </category>
-    <category name="人工智能">
-      <block type="train_your_ai"></block>
-      <block type="talk_with_ai"></block>
-      <block type="talk_with_cloud_ai"></block>
-    </category>
-    <category name="逻辑">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-    </category>
-    <category name="循环">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-    </category>
-    <category name="数学">
-      <block type="math_number"></block>
-      <block type="math_arithmetic"></block>
-      <block type="math_single"></block>
-    </category>
-    <category name="文本">
-      <block type="text"></block>
-      <block type="text_length"></block>
-      <block type="text_print"></block>
-    </category>
-    <!--view-source:https://blockly-demo.appspot.com/static/demos/code/index.html-->
-    <category name="变量" colour="330" custom="VARIABLE"></category>
-    <category name="函数" colour="290" custom="PROCEDURE"></category> <!--{catFunctions}国际化:{}-->
-  </xml>
+            <xml id="toolbox" style="display: none">
+                <category colour="210" name="传感器">
+                    <block type="alphabet"></block>
+                    <block type="get_distance"></block>
+                    <block type="infrared_record"></block>
+                    <block type="infrared_send"></block>
+                    <block type="get_temperature"></block>
+                </category>
+                <category colour="230" name="系统功能">
+                    <block type="time_sleep"></block>
+                </category>
+                <category name="输入输出">
+                    <block type="beep"></block>
+                    <block type="play_record"></block>
+                    <block type="sox_record"></block>
+                    <block type="say"></block>
+                </category>
+                <category name="网络">
+                    <block type="send_email"></block>
+                </category>
+                <category name="人工智能">
+                    <block type="train_your_ai"></block>
+                    <block type="talk_with_ai"></block>
+                    <block type="talk_with_cloud_ai"></block>
+                </category>
+                <category name="逻辑">
+                    <block type="controls_if"></block>
+                    <block type="logic_compare"></block>
+                    <block type="logic_operation"></block>
+                    <block type="logic_negate"></block>
+                    <block type="logic_boolean"></block>
+                </category>
+                <category name="循环">
+                    <block type="controls_repeat_ext">
+                        <value name="TIMES">
+                            <block type="math_number">
+                                <field name="NUM">10</field>
+                            </block>
+                        </value>
+                    </block>
+                    <block type="controls_whileUntil"></block>
+                </category>
+                <category name="数学">
+                    <block type="math_number"></block>
+                    <block type="math_arithmetic"></block>
+                    <block type="math_single"></block>
+                </category>
+                <category name="文本">
+                    <block type="text"></block>
+                    <block type="text_length"></block>
+                    <block type="text_print"></block>
+                </category>
+                <!--view-source:https://blockly-demo.appspot.com/static/demos/code/index.html-->
+                <category name="变量" colour="330" custom="VARIABLE"></category>
+                <category name="函数" colour="290" custom="PROCEDURE"></category>
+                <!--{catFunctions}国际化:{}-->
+            </xml>
 
-  <xml id="startBlocks" style="display: none"> <!--初始化的模块-->
-    <block type="controls_if" inline="false" x="20" y="20">
-      <mutation else="1"></mutation>
-      <value name="IF0">
-        <block type="logic_compare" inline="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="math_arithmetic" inline="true">
-              <field name="OP">MULTIPLY</field>
-              <value name="A">
-                <block type="math_number">
-                  <field name="NUM">6</field>
+            <xml id="startBlocks" style="display: none">
+                <!--初始化的模块-->
+                <block type="controls_if" inline="false" x="20" y="20">
+                    <mutation else="1"></mutation>
+                    <value name="IF0">
+                        <block type="logic_compare" inline="true">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                                <block type="math_arithmetic" inline="true">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                        <block type="math_number">
+                                            <field name="NUM">6</field>
+                                        </block>
+                                    </value>
+                                    <value name="B">
+                                        <block type="math_number">
+                                            <field name="NUM">7</field>
+                                        </block>
+                                    </value>
+                                </block>
+                            </value>
+                            <value name="B">
+                                <block type="math_number">
+                                    <field name="NUM">42</field>
+                                </block>
+                            </value>
+                        </block>
+                    </value>
+                    <statement name="DO0">
+                        <block type="text_print" inline="false">
+                            <value name="TEXT">
+                                <block type="text">
+                                    <field name="TEXT">Don't panic</field>
+                                </block>
+                            </value>
+                        </block>
+                    </statement>
+                    <statement name="ELSE">
+                        <block type="text_print" inline="false">
+                            <value name="TEXT">
+                                <block type="text">
+                                    <field name="TEXT">Panic</field>
+                                </block>
+                            </value>
+                        </block>
+                    </statement>
                 </block>
-              </value>
-              <value name="B">
-                <block type="math_number">
-                  <field name="NUM">7</field>
-                </block>
-              </value>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number">
-              <field name="NUM">42</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO0">
-        <block type="text_print" inline="false">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">Don't panic</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-      <statement name="ELSE">
-        <block type="text_print" inline="false">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">Panic</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-    </block>
-  </xml>
-  </div><!--end col-md-6-->
-  <div class="col-md-6">
-   <div id="code_playgroud">
-   <h1>Code Generator  </h1>
-   </div>
+            </xml>
+        </div>
+        <!--end col-md-6-->
+        <div class="col-md-6">
+            <div id="code_playgroud">
+                <h1>Code Generator  </h1>
+            </div>
 
-   <div id="mytools">
-     <!--使用模板引擎： https://github.com/aui/artTemplate/blob/master/demo/basic.html
+            <div id="mytools">
+                <!--使用模板引擎： https://github.com/aui/artTemplate/blob/master/demo/basic.html
      http://ocfy0072v.bkt.clouddn.com/template.js
      es6原生模板字符串 `` ，没有for
-     --> 
-   </div>
+     -->
+            </div>
 
-   <div id="cloud_button_group"> </div> <!--云端按钮组锚点-->
-  </div> <!--end col-md-6-->
-</div> <!--end row-->
+            <div id="cloud_button_group"> </div>
+            <!--云端按钮组锚点-->
+        </div>
+        <!--end col-md-6-->
+    </div>
+    <!--end row-->
 
-<script>
-//初始化blockly
-var workspace = Blockly.inject('blocklyDiv',
-        {media: '../../media/',
-         toolbox: document.getElementById('toolbox')});
-//Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),workspace);// 初始化的块,手写出来的有没有可能console.log 手写出来，放到区域里
-//这个方法以及把使用方法说尽,从云端拉下来的，放到本地空间或者预览
-//如何生成xml
-//document.getElementById('toolbox')
+    <script>
+        //初始化blockly
+        var workspace = Blockly.inject('blocklyDiv',
+        {
+            media: '../../media/',
+            toolbox: document.getElementById('toolbox')
+        });
+        //Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),workspace);// 初始化的块,手写出来的有没有可能console.log 手写出来，放到区域里
+        //这个方法以及把使用方法说尽,从云端拉下来的，放到本地空间或者预览
+        //如何生成xml
+        //document.getElementById('toolbox')
 
-window.setTimeout(BlocklyStorage.restoreBlocks, 0); //定时存储，也可模仿它来上传状态  storage.js->Blockly.getMainWorkspace()，可以加上workspace参数
-BlocklyStorage.backupOnUnload(); // listener on the page's unload event  //拉取状态同步到本地
+        window.setTimeout(BlocklyStorage.restoreBlocks, 0); //定时存储，也可模仿它来上传状态  storage.js->Blockly.getMainWorkspace()，可以加上workspace参数
+        BlocklyStorage.backupOnUnload(); // listener on the page's unload event  //拉取状态同步到本地
 
-function wwjtest(code) {
-      var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
-      var blockly_server = `http://${ip}:5000/run`; //run
-      //code_base64 = window.btoa(unescape(encodeURIComponent( code )))
-      code_base64 = code
-      xmlhttp=new XMLHttpRequest();  //重构为fetch
-      xmlhttp.timeout = 8000;//10秒 //异步才有
-      xmlhttp.ontimeout = function (e) {
-        swal('请求超时')
-        document.getElementById("runCode").disabled = false;
-      };
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          code_result = JSON.parse(xmlhttp.response).code_result
-           console.log(code_result);
-          //sweetalert A beautiful replacement for JavaScript's "alert"
-          document.getElementById("runCode").disabled = false;
-          swal('运行结果:',code_result);
-          };
-        };
-      xmlhttp.open("POST",blockly_server,true);//异步,同步是false
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(JSON.stringify({key:"test",code:code_base64}));
-    }//end wwjtest
+        function wwjtest(code)
+        {
+            var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
+            var blockly_server = `http://${ip}:5000/run`; //run
+            //code_base64 = window.btoa(unescape(encodeURIComponent( code )))
+            code_base64 = code
+            xmlhttp = new XMLHttpRequest(); //重构为fetch
+            xmlhttp.timeout = 8000; //10秒 //异步才有
+            xmlhttp.ontimeout = function(e)
+            {
+                swal('请求超时')
+                document.getElementById("runCode").disabled = false;
+            };
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    code_result = JSON.parse(xmlhttp.response).code_result
+                    console.log(code_result);
+                    //sweetalert A beautiful replacement for JavaScript's "alert"
+                    document.getElementById("runCode").disabled = false;
+                    swal('运行结果:', code_result);
+                };
+            };
+            xmlhttp.open("POST", blockly_server, true); //异步,同步是false
+            xmlhttp.setRequestHeader("Content-Type",
+                "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(
+            {
+                key: "test",
+                code: code_base64
+            }));
+        } //end wwjtest
 
-function showCode() {
-      // Generate JavaScript code and display it.
-      Blockly.Python.INFINITE_LOOP_TRAP = null;
-      var code = Blockly.Python.workspaceToCode(workspace);
-      //写入到codemirror里
-      //editor.getValue(); 得到转义的
-      //editor.getTextArea().value; 得到未转义的
-      //editor.setValue('为codemirror赋值');
-      myCodeMirror.setValue(code)
-      //swal(code);
-    }
+        function showCode()
+        {
+            // Generate JavaScript code and display it.
+            Blockly.Python.INFINITE_LOOP_TRAP = null;
+            var code = Blockly.Python.workspaceToCode(workspace);
+            //写入到codemirror里
+            //editor.getValue(); 得到转义的
+            //editor.getTextArea().value; 得到未转义的
+            //editor.setValue('为codemirror赋值');
+            myCodeMirror.setValue(code)
+                //swal(code);
+        }
 
-function runCode() {
-      // Generate JavaScript code and run it.
-      // 发送到硬件里
-      Blockly.Python.INFINITE_LOOP_TRAP = null;
-      //get code from code code_playgroud
-      var code = Blockly.Python.workspaceToCode(workspace);
-      //var code = myCodeMirror.getValue();
-      console.log(code);
-      //设置按钮：document.getElementById("myBtn").disabled = true;
-      //document.getElementById("runCode").disabled = true;
-      wwjtest(code);
-      //1+5加号会没掉
-      //alert(code);
-    }
-
-
-//获取workspace的xml_text
-function get_xml_text(opt_workspace){
-var workspace = opt_workspace || Blockly.getMainWorkspace();
-var xml = Blockly.Xml.workspaceToDom(workspace)
-var xml_text = Blockly.Xml.domToText(xml)
-console.log(xml_text)
-return xml_text
-}
-
-
-//设置xml_text到workspace
-function set_workspace(xml_text,opt_workspace){
-var workspace = opt_workspace || Blockly.getMainWorkspace();
-var xml = Blockly.Xml.textToDom(xml_text);
-//清理掉原先的
-workspace.clear();
-Blockly.Xml.domToWorkspace(xml, workspace);
-}
+        function runCode()
+        {
+            // Generate JavaScript code and run it.
+            // 发送到硬件里
+            Blockly.Python.INFINITE_LOOP_TRAP = null;
+            //get code from code code_playgroud
+            var code = Blockly.Python.workspaceToCode(workspace);
+            //var code = myCodeMirror.getValue();
+            console.log(code);
+            //设置按钮：document.getElementById("myBtn").disabled = true;
+            //document.getElementById("runCode").disabled = true;
+            wwjtest(code);
+            //1+5加号会没掉
+            //alert(code);
+        }
 
 
-function  check_pi_access(){
-      var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
-      var blockly_server = `http://${ip}:5000/access`; //access
-      var xmlhttp=new XMLHttpRequest();
-      xmlhttp.timeout = 3000;  //10秒 //异步才有
-      xmlhttp.ontimeout = function (e) {
-        swal('请求超时');
-      };
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-           console.log("树莓派连接成功");
-           swal("树莓派连接成功");
-          };
-      }
- 
-      xmlhttp.open("GET",blockly_server,true);//异步,同步是false
-      xmlhttp.send();
-}
-</script>
+        //获取workspace的xml_text
+        function get_xml_text(opt_workspace)
+        {
+            var workspace = opt_workspace || Blockly.getMainWorkspace();
+            var xml = Blockly.Xml.workspaceToDom(workspace)
+            var xml_text = Blockly.Xml.domToText(xml)
+            console.log(xml_text)
+            return xml_text
+        }
 
-<script type="text/javascript" charset="utf-8">
-//代码编辑器
-myCodeMirror = CodeMirror(document.getElementById("code_playgroud"), {
-    lineNumbers: true,
-    styleActiveLine: true,
-    value: "def hello()\n    print 'hello world'\n",
-      mode:  "python"
-}); //全局
-var theme="solarized dark";
-myCodeMirror.setOption("theme", theme);
-</script>
 
-<script src="tools_template.js"></script> <!--本地模板-->
+        //设置xml_text到workspace
+        function set_workspace(xml_text, opt_workspace)
+        {
+            var workspace = opt_workspace || Blockly.getMainWorkspace();
+            var xml = Blockly.Xml.textToDom(xml_text);
+            //清理掉原先的
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(xml, workspace);
+        }
 
-<script src="cloud_gist.js"></script> <!--本地模板-->
+
+        function check_pi_access()
+        {
+            var ip = document.getElementById('pi_ip').value; //需要一个总的开始，填入ip
+            var blockly_server = `http://${ip}:5000/access`; //access
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.timeout = 3000; //10秒 //异步才有
+            xmlhttp.ontimeout = function(e)
+            {
+                swal('请求超时');
+            };
+            xmlhttp.onreadystatechange = function()
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    console.log("树莓派连接成功");
+                    swal("树莓派连接成功");
+                };
+            }
+
+            xmlhttp.open("GET", blockly_server, true); //异步,同步是false
+            xmlhttp.send();
+        }
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+        //代码编辑器
+        myCodeMirror = CodeMirror(document.getElementById("code_playgroud"),
+        {
+            lineNumbers: true,
+            styleActiveLine: true,
+            value: "def hello()\n    print 'hello world'\n",
+            mode: "python"
+        }); //全局
+        var theme = "solarized dark";
+        myCodeMirror.setOption("theme", theme);
+    </script>
+
+    <script src="tools_template.js"></script>
+    <!--本地模板-->
+
+    <script src="cloud_gist.js"></script>
+    <!--本地模板-->
 
 
 
 </body>
+
 </html>
