@@ -45,23 +45,6 @@ var mytools_tpl = `
     <li><a href="#">进入管理中心</a></li>
   </ul>
 </div>
-
-
-
-<h1>云端</h1>
-<div class="btn-group">
-  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-    云端程序 <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a  id="gist_share" href="#">分享当前程序到云端</a></li>
-    <li><a  id="get_gist_lastest" href="#">拉取最近上传的程序</a></li>
-    <li><a href="#">查看流行程序</a></li>
-    <li><a href="#ip:9001/logtail/ngrok">远程控制（协助）</a></li>
-    <li class="divider"></li>
-    <li><a href="#">进入云中心</a></li>
-  </ul>
-</div>
 `
 
 //todo 写渲染函数,模块化
@@ -90,24 +73,24 @@ function request(url) {
 
 
 function request(url) {
-     //var xmlhttp=new XMLHttpRequest();
-     //xmlhttp.open("GET",url,true);//异步,同步是false //跨域
-     //xmlhttp.send();
-     //只能直接打开了
-     var win = window.open(url);
-     win.close(); //开启之后关闭
+    //var xmlhttp=new XMLHttpRequest();
+    //xmlhttp.open("GET",url,true);//异步,同步是false //跨域
+    //xmlhttp.send();
+    //只能直接打开了
+    var win = window.open(url);
+    win.close(); //开启之后关闭
 }
 
 
 //fetch 发送http请求
 //todo：以功能命名模块
 //监听按钮
-$("#stop_auto_process").click(function(event){
-  event.preventDefault();
-  var pi_ip = $("#pi_ip").val();
-  url = `http://pi:pi@${pi_ip}:9001/index.html?processname=codetest&action=stop`
-  request(url);
-  //swal("ok")
-  //提交请求
-})
-//this
+$("#stop_auto_process").click(function(event) {
+        event.preventDefault();
+        var pi_ip = $("#pi_ip").val();
+        url = `http://pi:pi@${pi_ip}:9001/index.html?processname=codetest&action=stop`
+        request(url);
+        //swal("ok")
+        //提交请求
+    })
+    //this
