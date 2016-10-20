@@ -11,3 +11,4 @@
 [ ] 使用这个重构：https://blockly-demo.appspot.com/static/demos/code/code.js
 [ ] 浏览器缓存ip表单
 [ ] 同时支持存储到本地和上传云端,都用kinto
+[ ] 上传程序要求用户输入title
